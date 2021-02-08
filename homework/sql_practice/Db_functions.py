@@ -23,15 +23,14 @@ class DatabaseConnection:
 
         self.cursor = self.connection.cursor()
         self.connection.autocommit = True
-        cursor = self.connection.cursor()
 
         logging.info(f'DB connecting successfully')
-        return cursor
+        return self.cursor
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.commit()
         self.connection.close()
-
+        logging.info(f'Close DB')
 
 class DataBManager:
 
@@ -63,7 +62,7 @@ class DataBManager:
         """
         method rewrite a user record in table 'users"""
         with DatabaseConnection() as cursor:
-            cursor.execute(f"""UPDATE users SET 
+            cursor.execute("""UPDATE users SET 
                             name = %(name)s,
                             email = %(email)s, 
                             registration_time = %(registration_time)s
@@ -107,7 +106,7 @@ class DataBManager:
                             creation_time = '{cart["creation_time"]}' 
                             WHERE user_id = {cart['user_id']}""", cart)
 
-            cursor.executemany(f"""UPDATE cart_details SET 
+            cursor.executemany("""UPDATE cart_details SET 
                             price = %(price)s, product = %(product)s
                             WHERE cart_id = %(cart_id)s""", cart["cart_details"], )
         logging.info(f' update cart | {cart["cart_details"]}')
