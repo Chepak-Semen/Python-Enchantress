@@ -19,6 +19,7 @@ class TestDataBaseUsers(TestCase):
 
         self.new_user_info = (4, 'Semen', 'chepak.semmy@gmail.com', datetime.datetime(2021, 2, 5, 7, 21, 37))
 
+        """.updated_user_info only for update old user """
         self.updated_user_info = (4, 'Andriy', 'chepak.andriy@gmail.com', datetime.datetime(2021, 2, 5, 7, 21, 37))
 
         self.users_dict = {'user_id': 2, 'name': 'Semen', 'email': 'semen@gmail.com',
@@ -42,7 +43,7 @@ class TestDataBaseUsers(TestCase):
     def test_crud_user_positive(self):
         self.database.create_user(self.new_user)
         self.assertEqual(self.database.read_user_info(4), self.new_user_info)
-        self.database.update_user(new_info=self.updated_user, _id=4)
+        self.database.update_user(new_info=self.updated_user, user_id=4)
         self.assertEqual(self.database.read_user_info(4), self.updated_user_info)
         self.database.delete_user(_id=4)
         self.assertEqual(self.database.read_user_info(4), None)
@@ -50,7 +51,7 @@ class TestDataBaseUsers(TestCase):
     def test_crud_users_negative(self):
         self.database.create_user(self.updated_user)
         self.assertNotEqual(self.database.read_user_info(5), self.new_user_info)
-        self.database.update_user(new_info=self.new_user, _id=5)
+        self.database.update_user(new_info=self.new_user, user_id=5)
         self.assertNotEqual(self.database.read_user_info(5), self.updated_user_info)
         self.database.delete_user(_id=5)
         self.assertNotEqual(self.database.read_user_info(4), int)

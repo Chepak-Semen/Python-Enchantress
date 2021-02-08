@@ -13,12 +13,13 @@ logging.basicConfig(
 class DatabaseConnection:
 
     def __enter__(self):
-        self.connection = psycopg2.connect(dbname="chepak_s",
-                                           user="chepak_s",
-                                           password='999',
-                                           host='localhost',
-                                           port='5432'
-                                           )
+        self.connection = psycopg2.connect(
+            dbname="chepak_s",
+            user="chepak_s",
+            password='999',
+            host='localhost',
+            port='5432'
+        )
 
         self.cursor = self.connection.cursor()
         self.connection.autocommit = True
@@ -30,8 +31,6 @@ class DatabaseConnection:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.commit()
         self.connection.close()
-
-        return False
 
 
 class DataBManager:
@@ -50,33 +49,28 @@ class DataBManager:
         logging.info(f'Adding new user {user_info["name"]} | {user_info["email"]}')
 
     @staticmethod
-    def read_user_info(_id: int):
+    def read_user_info(user_id: int):
         """
         method show information about user with _id in table 'users'
         """
         with DatabaseConnection() as cursor:
-            cursor.execute('SELECT * FROM users WHERE id = %s', (_id,))
+            cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
             info = cursor.fetchone()
             return info
 
     @staticmethod
-    def update_user(new_info: dict, _id: int):
+    def update_user(new_info: dict, user_id: int):
         """
-        method rewrite a user record in table 'users' for column {
-                                                                name,
-                                                                email,
-                                                                registration_time
-                                                              }
-        """
+        method rewrite a user record in table 'users"""
         with DatabaseConnection() as cursor:
             cursor.execute(f"""UPDATE users SET 
                             name = %(name)s,
                             email = %(email)s, 
                             registration_time = %(registration_time)s
                             WHERE 
-                            id = {_id}""", new_info)
+                            id = {user_id}""", new_info)
 
-        logging.info(f'Updating user _id | {_id}')
+        logging.info(f'Updating user _id | {user_id}')
 
     @staticmethod
     def delete_user(_id: int):
@@ -95,55 +89,47 @@ class DataBManager:
         """
         with DatabaseConnection() as cursor:
             cursor.execute("""INSERT INTO cart (creation_time, user_id) 
-                            VALUES 
-                            (%(creation_time)s, %(user_id)s)""", cart)
+                            VALUES (%(creation_time)s, %(user_id)s)""", cart)
 
             cursor.executemany("""INSERT INTO cart_details (cart_id, price, product) 
-                                VALUES 
-                                (%(cart_id)s, %(price)s, %(product)s)""", cart["cart_details"])
+                                VALUES  (%(cart_id)s, %(price)s, %(product)s)""", cart["cart_details"])
 
         logging.info(f'Adding new cart {cart["cart_details"]}')
 
     @staticmethod
     def update_cart(cart: dict):
         """
-        method rewrite a user record in table 'cart' for column {
-                                                                registration_time
-                                                                }
-        and in table 'cart_details' for column {
-                                                price
-                                                product
-                                                }
+        method rewrite a user record in table 'cart' for column {registration_time}
+        and in table 'cart_details' for column {price & product}
         """
         with DatabaseConnection() as cursor:
             cursor.executemany(f"""UPDATE cart SET 
                             creation_time = '{cart["creation_time"]}' 
-                            WHERE 
-                            user_id = {cart['user_id']}""", cart)
+                            WHERE user_id = {cart['user_id']}""", cart)
 
             cursor.executemany(f"""UPDATE cart_details SET 
-                                price = %(price)s, product = %(product)s
-                                WHERE cart_id = %(cart_id)s""", cart["cart_details"], )
+                            price = %(price)s, product = %(product)s
+                            WHERE cart_id = %(cart_id)s""", cart["cart_details"], )
         logging.info(f' update cart | {cart["cart_details"]}')
 
     @staticmethod
-    def read_cart(_id: int):
+    def read_cart(cart_id: int):
         """
         method show information about user with _id in table 'cart_details'
         """
         with DatabaseConnection() as cursor:
-            cursor.execute('SELECT * FROM cart_details WHERE cart_id = %s', (_id,))
-            return cursor.fetchall()
+            cursor.execute('SELECT * FROM cart_details WHERE cart_id = %s', (cart_id,))
+            info = cursor.fetchall()
+        return info
 
     @staticmethod
-    def delete_cart(_id: int):
+    def delete_cart(cart_id: int):
         """
         method delete information about cart with _id in table 'cart'&'cart_details'
         """
         with DatabaseConnection() as cursor:
-            cursor.execute('DELETE FROM cart_details WHERE cart_id = %s', (_id,))
-            cursor.execute('DELETE FROM cart WHERE id = %s', (_id,))
-        logging.warning(f'Delete cart with id {_id}')
+            cursor.execute('DELETE FROM cart_details WHERE cart_id = %s', (cart_id,))
+        logging.warning(f'Delete cart with id {cart_id}')
 
 
 if __name__ == '__main__':
