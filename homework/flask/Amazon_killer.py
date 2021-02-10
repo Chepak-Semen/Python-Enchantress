@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify
 from datetime import datetime
 
+from flask import Flask, request
 
 amazon_killer = Flask(__name__)
 
@@ -22,6 +22,21 @@ def create_user():
     user_counter += 1
 
     return response, 201
+
+
+@amazon_killer.route('/users', methods=["POST"])
+def get_users(user_id: int):
+    user = USERS_DATABASE
+
+
+@amazon_killer.route('/users', methods=["POST"])
+def update_users():
+    pass
+
+@amazon_killer.route('/users', methods=["POST"])
+def delete_users():
+    pass
+
 
 
 if __name__ == '__main__':
