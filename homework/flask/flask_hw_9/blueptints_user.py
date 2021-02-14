@@ -10,7 +10,10 @@ user_counter = 1
 
 def is_user_in_db(user_id, db):
     """check availability user in DB"""
-    return True if user_id in db else False
+    if user_id in db:
+        return True
+    else:
+        raise KeyError
 
 
 class NoSuchUser(Exception):
@@ -45,7 +48,7 @@ def create_user():
 def get_user(user_id):
     """read user info from DB return dict"""
     try:
-        user = USERS_DATABASE[user_id]
+        user = USERS_DATABASE.get("user_id")
     except KeyError:
         raise NoSuchUser(user_id)
     else:
@@ -62,7 +65,7 @@ def put_user(user_id):
         user = USERS_DATABASE[user_id]
         user["name"] = put_data["name"]
         user["email"] = put_data["email"]
-    except False or KeyError:
+    except KeyError:
         raise NoSuchUser
     else:
         return response, 200
