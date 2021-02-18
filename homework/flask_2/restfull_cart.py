@@ -8,11 +8,6 @@ CART_DATABASE = {}
 cart_counter = 1
 
 
-class NoSuchUser(Exception):
-    def __init__(self, user_id):
-        self.user_id = user_id
-
-
 def is_user_in_db(user_id, db):
     """check availability user in DB"""
     if user_id in db:
@@ -34,7 +29,7 @@ class Cart(Resource):
         }
         try:
             is_user_in_db(user_id, CART_DATABASE)
-        except NoSuchUser:
+        except KeyError:
             return {"error": f"no such user "}, 404
         else:
             CART_DATABASE[cart_counter] = response

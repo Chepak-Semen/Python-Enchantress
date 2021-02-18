@@ -16,17 +16,6 @@ def is_user_in_db(user_id, db):
         raise KeyError
 
 
-class NoSuchUser(Exception):
-    def __init__(self, user_id):
-        self.user_id = user_id
-
-
-@users_bd.errorhandler(NoSuchUser)
-def no_such_user_handler(e):
-    return {"error": f"no such user with id {e.user_id}"}, 404
-
-
-@users_bd.route('/create_user', methods=["POST"])
 def create_user():
     """create new user in USERS_DB/ return dict & status code"""
     global user_counter
@@ -50,7 +39,7 @@ def get_user(user_id):
     try:
         user = USERS_DATABASE.get("user_id")
     except KeyError:
-        raise NoSuchUser(user_id)
+        return {"error": f"no such user with id {user_id}"}, 404
     else:
         return user
 
@@ -66,7 +55,7 @@ def put_user(user_id):
         user["name"] = put_data["name"]
         user["email"] = put_data["email"]
     except KeyError:
-        raise NoSuchUser
+        return {"error": f"no such user with id {user_id}"}, 404
     else:
         return response, 200
 
@@ -78,6 +67,6 @@ def delete_user(user_id):
     try:
         USERS_DATABASE.pop(user_id)
     except KeyError:
-        raise NoSuchUser
+        return {"error": f"no such user with id {user_id}"}, 404
     else:
         return response, 200
