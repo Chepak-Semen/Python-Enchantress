@@ -1,0 +1,36 @@
+root - INFO - DB connecting successfully
+root - INFO - Adding new cart [{'cart_id': 4, 'price': 130, 'product': 'sony'}]
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO -  update cart | [{'cart_id': 4, 'price': 300, 'product': 'milk'}]
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - WARNING - Delete cart with id 2
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO - Adding new cart [{'cart_id': 4, 'price': 130, 'product': 'sony'}]
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO -  update cart | [{'cart_id': 4, 'price': 300, 'product': 'milk'}]
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - WARNING - Delete cart with id 4
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO - Adding new user Semen | chepak.semmy@gmail.com
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO - Updating user _id | 4
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - WARNING - Delete user with id 4
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO - Adding new user Andriy | chepak.andriy@gmail.com
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - INFO - Updating user _id | 5
+root - INFO - DB connecting successfully
+root - INFO - DB connecting successfully
+root - WARNING - Delete user with id 5
+root - INFO - DB connecting successfully

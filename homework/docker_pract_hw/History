@@ -1,0 +1,8 @@
+semen@semen-1:~$ cd Python-Enchantress/homework/
+semen@semen-1:~/Python-Enchantress/homework$ docker save ubuntu > ubuntu.tar
+semen@semen-1:~/Python-Enchantress/homework$ ls -sh ubuntu.tar
+202M ubuntu.tar
+semen@semen-1:~/Python-Enchantress/homework$ docker save ubuntu > ubuntu.zip
+semen@semen-1:~/Python-Enchantress/homework$ ls -sh ubuntu.zip
+202M ubuntu.zip
+tar xf ubuntu.tar
